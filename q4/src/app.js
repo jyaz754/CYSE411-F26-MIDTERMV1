@@ -91,15 +91,37 @@ function saveSession() {
 
 
 function loadSession() {
-
-    const stored = localStorage.getItem("profile");
-
+   try {
+    const stored = await localStorage.getItem("profile");
+   
     if (stored) {
 
-        const profile = JSON.parse(stored);
+        const profile = await JSON.parse(stored);
+       if (stored === null) {
+         return null;
+      }
+     if (typeof(profile.notifications) === "undefined"){
+        throw new Error("notifications not valid");
+     }
+      if (typeof(profile.username) !== "string") {
+         throw new Error("username not valid");
+      }
+      for (i in profile.notifications) {
+         if (typeof(i) !== "string") {
+            throw new Error("notifications not valid");
+         }
+         let comment = " I am not sanitizing notifications here because I am doing it before it is used so its easier for me to implement"
+      }
+      profile.username = sanitizeInput(profile.username);
+    currentProfile = profile;
 
         currentProfile = profile;
 
         renderProfile(profile);
     }
+   }
+   catch(e) {
+      console.error(e);
+         return null; 
+   }
 }
