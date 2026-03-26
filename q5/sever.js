@@ -43,8 +43,8 @@ db.serialize(() => {
 
 app.post("/login", (req, res) => {
 
-    const username = sanitizeInput(req.body.username)
-    const password = sanitizeInput(req.body.password)
+    const username = String(sanitizeInput(req.body.username))
+    const password = String(sanitizeInput(req.body.password))
     
     const query = "SELECT * FROM users WHERE username = '"?"' AND password = '"?"'", [username, password]
 
