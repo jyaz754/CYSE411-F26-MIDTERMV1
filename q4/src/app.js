@@ -37,11 +37,11 @@ function loadProfile() {
       if (typeof(profile.username) !== "string") {
          throw new Error("username not valid");
       }
-      for (i in profile.notifications) {
-         if (typeof(i) !== "string") {
+      for (let i in profile.notifications) {
+          if (typeof(i) !== "string") {
             throw new Error("notifications not valid");
+            i = sanitizeInput(i);
          }
-         let comment = " I am not sanitizing notifications here because I am doing it before it is used so its easier for me to implement"
       }
       profile.username = sanitizeInput(profile.username);
     currentProfile = profile;
@@ -84,6 +84,9 @@ function renderProfile(profile) {
 -------------------------- */
 
 function saveSession() {
+   for (let notif in currentProfile.notifications) {
+      notif = " "
+   } //I am clearing notifications because they are sensitize information
     localStorage.setItem("profile", JSON.stringify(currentProfile));
 
     alert("Session saved");
@@ -106,11 +109,11 @@ function loadSession() {
       if (typeof(profile.username) !== "string") {
          throw new Error("username not valid");
       }
-      for (i in profile.notifications) {
+      for (let i in profile.notifications) {
          if (typeof(i) !== "string") {
             throw new Error("notifications not valid");
+            i = sanitizeInput(i);
          }
-         let comment = " I am not sanitizing notifications here because I am doing it before it is used so its easier for me to implement"
       }
       profile.username = sanitizeInput(profile.username);
     currentProfile = profile;
