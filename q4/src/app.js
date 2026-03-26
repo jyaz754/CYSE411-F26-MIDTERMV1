@@ -48,8 +48,8 @@ function loadProfile() {
    
     renderProfile(profile);
    }
-   catch {
-         console.error("invalid JSON");
+   catch (e) {
+        console.error(e);
          return null; 
    }
 }
