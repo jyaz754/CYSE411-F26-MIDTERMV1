@@ -34,11 +34,11 @@ function loadProfile() {
      if (typeof(profile.notifications) === "undefined"){
         throw new Error("notifications not valid");
      }
-      if (typeof(profile.username) != "string") {
+      if (typeof(profile.username) !== "string") {
          throw new Error("username not valid");
       }
       for (i in profile.notifications) {
-         if (typeof(i) != "string") {
+         if (typeof(i) !== "string") {
             throw new Error("notifications not valid");
          }
          let comment = " I am not sanitizing notifications here because I am doing it before it is used so its easier for me to implement"
