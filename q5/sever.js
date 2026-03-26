@@ -7,7 +7,10 @@ const db = new sqlite3.Database("portal.db")
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-
+function sanitizeInput(input) {
+   let outut = input.replace(/[^A-Za-z0-9_]/g, "_");
+   return output;
+}
 db.serialize(() => {
 
     db.run(`
@@ -40,15 +43,10 @@ db.serialize(() => {
 
 app.post("/login", (req, res) => {
 
-    const username = req.body.username
-    const password = req.body.password
-
-    const query =
-        "SELECT * FROM users WHERE username = '" +
-        username +
-        "' AND password = '" +
-        password +
-        "'"
+    const username = sanitizeInput(req.body.username)
+    const password = sanitizeInput(req.body.password)
+    
+    const query = "SELECT * FROM users WHERE username = '"?"' AND password = '"?"'", [username, password]
 
     console.log("\nExecuting SQL:")
     console.log(query)
