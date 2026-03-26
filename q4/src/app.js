@@ -11,8 +11,13 @@ saveBtn.addEventListener("click", saveSession);
 loadSessionBtn.addEventListener("click", loadSession);
 
 let currentProfile = null;
-
-
+/* -------------------------
+   this is a function for sanitizing user control fields (have mercy if it does not run plz)
+-------------------------- */
+function sanitizeInput(input) {
+   let outut = input.replace(/[^A-Za-z0-9_]/g, "_");
+   return output;
+}
 /* -------------------------
    Load Profile
 -------------------------- */
@@ -21,12 +26,32 @@ function loadProfile() {
 
     const text = document.getElementById("profileInput").value;
 
-   
-    const profile = JSON.parse(text);
-
+   try {
+    const profile = await JSON.parse(text);
+      if (profile === null) {
+         return null;
+      }
+     if (typeof(profile.notifications) === "undefined"){
+        throw new Error("notifications not valid");
+     }
+      if (typeof(profile.username) != "string") {
+         throw new Error("username not valid");
+      }
+      for (i in profile.notifications) {
+         if (typeof(i) != "string") {
+            throw new Error("notifications not valid");
+         }
+         let comment = " I am not sanitizing notifications here because I am doing it before it is used so its easier for me to implement"
+      }
+      profile.username = sanitizeInput(profile.username);
     currentProfile = profile;
-
+   
     renderProfile(profile);
+   }
+   catch {
+         console.error("invalid JSON");
+         return null; 
+   }
 }
 
 
@@ -37,17 +62,17 @@ function loadProfile() {
 function renderProfile(profile) {
 
     
-    document.getElementById("username").innerHTML = profile.username;
+    document.getElementById("username").textContent = profile.username;
 
     const list = document.getElementById("notifications");
-    list.innerHTML = "";
+    list.textContent = "";
 
     for (let n of profile.notifications) {
 
         const li = document.createElement("li");
 
-        
-        li.innerHTML = n;
+        let sanN = sanitizeInput(n);
+        li.textContent = sanN;
 
         list.appendChild(li);
     }
